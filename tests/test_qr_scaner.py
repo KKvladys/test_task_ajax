@@ -19,6 +19,10 @@ def check_qr():
     ]
 )
 def test_check_len_color_valid(check_qr, qr_code, expected_color):
+    """
+    Test checks if the correct color is
+    returned for different QR code lengths.
+    """
     color = check_qr.check_len_color(qr_code)
     assert color == expected_color
 
@@ -34,12 +38,19 @@ def test_check_len_color_valid(check_qr, qr_code, expected_color):
     ]
 )
 def test_check_len_color_invalid(check_qr, qr_code):
+    """
+    Tests if the check_len_color method for invalid QR codes.
+    """
     color = check_qr.check_len_color(qr_code)
     assert color is None
 
 
 @patch.object(CheckQr, "check_in_db", return_value=None)
 def test_check_scanned_device_not_in_db(mock_check_in_db, check_qr):
+    """
+    Verifies error handling when the
+    scanned QR code isn't found in the database.
+    """
     qr_code = "123"
     with patch.object(check_qr, "send_error") as mock_send_error:
         check_qr.check_scanned_device(qr_code)
@@ -52,6 +63,10 @@ def test_check_scanned_device_not_in_db(mock_check_in_db, check_qr):
 ])
 @patch.object(CheckQr, "check_in_db", return_value=None)
 def test_send_error_called(mock_check_in_db, check_qr, qr_code, expected_error):
+    """
+    Checks that the correct error message is
+    triggered for incorrect QR code lengths.
+    """
     with patch.object(check_qr, "send_error") as mock_send_error:
         check_qr.check_scanned_device(qr_code)
         mock_send_error.assert_any_call(expected_error)
@@ -59,6 +74,10 @@ def test_send_error_called(mock_check_in_db, check_qr, qr_code, expected_error):
 
 @patch.object(CheckQr, "check_in_db", return_value=True)
 def test_check_scanned_device_success(mock_check_in_db, check_qr):
+    """
+    Tests successful device scanning when the
+    QR code is valid and present in the database.
+    """
     qr_code = "123"
     with patch.object(check_qr, "can_add_device") as mock_can_add_device:
         check_qr.check_scanned_device(qr_code)

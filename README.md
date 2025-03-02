@@ -11,6 +11,11 @@ Clone the repository and install dependencies if necessary:
 git clone https://github.com/KKvladys/test_task_ajax
 cd test_task_ajax
 ```
+## Usage
+Run the script
+```bash
+python sensor_log_parser.py
+```
 
 ## Configuration
 The script defines constants for sensor states and error codes.  
@@ -42,7 +47,7 @@ Tests for the `CheckQr` class, which
 processes QR codes and validates their length, 
 color, and database existence.
 
-##Tested
+## Tested
 
 - **QR Code Length and Color Mapping (`check_len_color`)**  
   - Ensures that QR codes of valid length return the expected color.
@@ -52,3 +57,8 @@ color, and database existence.
   - If the QR code is **not found** in the database, an error message is sent.
   - If the QR code has an **invalid length**, an appropriate error is triggered.
   - If the QR code **exists**.
+
+### Run tests
+```bash
+pytest
+```
