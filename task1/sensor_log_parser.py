@@ -17,6 +17,9 @@ SENSOR_STATE_FAILED = "DD"
 
 
 def read_log_file(file_path: str) -> Generator[str, None, None]:
+    """
+    Reads a log file line by line and yields lines containing "BIG".
+    """
     with open(file_path, "r", encoding="utf-8") as log_file:
         for line in log_file:
             if "BIG" in line:
@@ -82,6 +85,9 @@ def display_results(
         sensors_ok: dict,
         sensors_failed: dict,
 ) -> None:
+    """
+    Displays statistics and error details for sensor data processing results.
+    """
     successful_sensors, failed_sensors = len(sensors_ok), len(sensors_failed)
 
     print(f"ALL big messages: {successful_sensors + failed_sensors}")
@@ -96,6 +102,9 @@ def display_results(
 
 
 def process_logs(file_path: str) -> None:
+    """
+    Start log file processing and displays results.
+    """
     sensor_ok, sensor_failed = process_sensor_data(file_path)
     display_results(sensor_ok, sensor_failed)
 
