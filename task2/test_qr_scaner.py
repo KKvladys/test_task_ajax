@@ -1,4 +1,5 @@
 import pytest
+
 from scanner_handler import CheckQr
 from unittest.mock import patch
 
