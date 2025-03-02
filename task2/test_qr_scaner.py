@@ -1,6 +1,8 @@
 import pytest
-from scanner_handler import CheckQr
+
 from unittest.mock import patch
+
+from scanner_handler import CheckQr
 
 
 @pytest.fixture
