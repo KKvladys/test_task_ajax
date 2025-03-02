@@ -9,7 +9,9 @@ ERROR_CODES = {
 
 def read_log_file(file_path: str) -> list:
     with open(file_path, "r", encoding="utf-8") as log_file:
-        return [line for line in log_file if "BIG" in line]
+        for line in log_file:
+            if "BIG" in line:
+                yield line
 
 
 def parse_log_message(line: str) -> tuple:
@@ -58,8 +60,7 @@ def decode_error_flags(sensor_failed: dict) -> None:
     Decodes sensor errors and displays messages.
     """
     for sensor_id, (s_p1, s_p2) in sensor_failed.items():
-        s_p1 = s_p1[:-1]
-        combined_str = s_p1 + s_p2
+        combined_str = s_p1[:-1] + s_p2
         pairs = [combined_str[i:i + 2] for i in range(0, len(combined_str), 2)]
 
         binary_values = [bin(int(pair))[2:].zfill(8) for pair in pairs]
