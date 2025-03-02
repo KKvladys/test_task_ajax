@@ -14,6 +14,7 @@ S_P2_INDEX = 13
 SENSOR_STATE_OK = "02"
 SENSOR_STATE_FAILED = "DD"
 
+
 def read_log_file(file_path: str) -> list:
     with open(file_path, "r", encoding="utf-8") as log_file:
         for line in log_file:
