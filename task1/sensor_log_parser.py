@@ -1,5 +1,11 @@
 from collections import defaultdict
 
+ERROR_CODES = {
+    0: "Battery device error",
+    1: "Temperature device error",
+    2: "Threshold central error"
+}
+
 
 def read_log_file(file_path: str) -> list:
     with open(file_path, "r", encoding="utf-8") as log_file:
@@ -47,7 +53,7 @@ def process_sensor_data(sensor_data: list) -> tuple:
     return sensor_ok, sensor_failed
 
 
-def decode_error_flags(sensor_failed: dict, error_codes: dict) -> None:
+def decode_error_flags(sensor_failed: dict) -> None:
     """
     Decodes sensor errors and displays messages.
     """
@@ -58,7 +64,7 @@ def decode_error_flags(sensor_failed: dict, error_codes: dict) -> None:
 
         binary_values = [bin(int(pair))[2:].zfill(8) for pair in pairs]
         error_flags = [binary[4] for binary in binary_values]
-        errors = [error_codes[i] for i, flag in enumerate(error_flags) if flag == "1"]
+        errors = [ERROR_CODES[i] for i, flag in enumerate(error_flags) if flag == "1"]
 
         print(
             f"{sensor_id} - {', '.join(errors) if errors else 'Unknown device error'}"
@@ -68,7 +74,6 @@ def decode_error_flags(sensor_failed: dict, error_codes: dict) -> None:
 def display_results(
         sensor_ok: dict,
         sensor_failed: dict,
-        error_codes: dict
 ) -> None:
     successful_sensors, failed_sensors = len(sensor_ok), len(sensor_failed)
 
@@ -76,26 +81,21 @@ def display_results(
     print(f"Successful big messages: {successful_sensors}")
     print(f"Failed big messages: {failed_sensors}\n")
 
-    decode_error_flags(sensor_failed, error_codes)
+    decode_error_flags(sensor_failed)
 
     print("\nSuccess messages count:")
     for sensor_id, count in sensor_ok.items():
         print(f"{sensor_id}: {count}")
 
 
-def process_logs(file_path: str, error_codes: dict) -> None:
+def process_logs(file_path: str) -> None:
     sensor_data = read_log_file(file_path)
     sensor_ok, sensor_failed = process_sensor_data(sensor_data)
-    display_results(sensor_ok, sensor_failed, error_codes)
+    display_results(sensor_ok, sensor_failed)
 
 
 def main() -> None:
-    error_codes = {
-        0: "Battery device error",
-        1: "Temperature device error",
-        2: "Threshold central error"
-    }
-    process_logs("app_2.log", error_codes)
+    process_logs("app_2.log")
 
 
 if __name__ == "__main__":
