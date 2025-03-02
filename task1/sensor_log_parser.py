@@ -6,6 +6,13 @@ ERROR_CODES = {
     2: "Threshold central error"
 }
 
+SENSOR_ID_INDEX = 2
+STATE_INDEX = -1
+S_P1_INDEX = 6
+S_P2_INDEX = 13
+
+SENSOR_STATE_OK = "02"
+SENSOR_STATE_FAILED = "DD"
 
 def read_log_file(file_path: str) -> list:
     with open(file_path, "r", encoding="utf-8") as log_file:
@@ -18,13 +25,13 @@ def parse_log_message(line: str) -> tuple:
     """
     Parses one line of a log file into parts.
     """
-    message = line.split(">")[-1].strip()
-    parts = message.split(";")
 
-    sensor_id = parts[2]
-    state = parts[-2]
-    s_p1 = parts[6]
-    s_p2 = parts[13]
+    parts = line.rsplit(">", 1)[-1].strip(" '\n").rstrip(";").split(";")
+
+    sensor_id = parts[SENSOR_ID_INDEX]
+    state = parts[STATE_INDEX]
+    s_p1 = parts[S_P1_INDEX]
+    s_p2 = parts[S_P2_INDEX]
 
     return sensor_id, state, s_p1, s_p2
 
@@ -44,12 +51,12 @@ def process_sensor_data(sensor_data: list) -> tuple:
         if sensor_id in sensor_failed:
             continue
 
-        if state == "DD":
+        if state == SENSOR_STATE_FAILED:
             sensor_failed[sensor_id] = (s_p1, s_p2)
             sensor_ok.pop(sensor_id, None)
             continue
 
-        if state == "02":
+        if state == SENSOR_STATE_OK:
             sensor_ok[sensor_id] += 1
 
     return sensor_ok, sensor_failed
