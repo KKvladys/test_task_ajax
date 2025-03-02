@@ -53,3 +53,11 @@ def test_send_error_called(mock_check_in_db, check_qr, qr_code, expected_error):
     with patch.object(check_qr, "send_error") as mock_send_error:
         check_qr.check_scanned_device(qr_code)
         mock_send_error.assert_any_call(expected_error)
+
+
+@patch.object(CheckQr, "check_in_db", return_value=True)
+def test_check_scanned_device_success(mock_check_in_db, check_qr):
+    qr_code = "123"
+    with patch.object(check_qr, "can_add_device") as mock_can_add_device:
+        check_qr.check_scanned_device(qr_code)
+        mock_can_add_device.assert_called_once_with(f"hallelujah {qr_code}")
