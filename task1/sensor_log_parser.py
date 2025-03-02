@@ -47,12 +47,12 @@ def process_sensor_data(file_path: str) -> tuple:
     for line in read_log_file(file_path):
         sensor_id, state, s_p1, s_p2 = parse_log_message(line)
 
-        if sensor_id in sensors_failed:
-            continue
-
         if state == SENSOR_STATE_FAILED:
             sensors_failed[sensor_id] = (s_p1, s_p2)
             sensors_ok.pop(sensor_id, None)
+            continue
+
+        if sensor_id in sensors_failed:
             continue
 
         if state == SENSOR_STATE_OK:
