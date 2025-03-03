@@ -69,7 +69,7 @@ def decode_error_flags(sensor_failed: dict) -> None:
     Decodes sensor errors and displays messages.
     """
     for sensor_id, (s_p1, s_p2) in sensor_failed.items():
-        combined_str = s_p1[:-1] + s_p2
+        combined_str = s_p1[:-1].lstrip("-") + s_p2.lstrip("-")
         pairs = [combined_str[i:i + 2] for i in range(0, len(combined_str), 2)]
 
         binary_values = [bin(int(pair))[2:].zfill(8) for pair in pairs]
