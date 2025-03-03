@@ -14,7 +14,14 @@ cd test_task_ajax
 ## Usage
 Run the script
 ```bash
-python sensor_log_parser.py
+python src/sensor_log_parser.py
+```
+or in Docker
+```bash
+docker build -t sensor_log_parser .
+```
+```bash
+docker run --rm sensor-log-parser
 ```
 
 ## Configuration
@@ -38,7 +45,7 @@ ERROR_CODES = {
 ```
 
 ## Result parse app_2.log file
-![parse_result.png](parse_result.png)
+![parse_result.png](assets/parse_result.png)
 
 ---
 # QR Code Scanner Handler Tests

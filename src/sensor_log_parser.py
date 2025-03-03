@@ -1,3 +1,5 @@
+import os
+
 from collections import defaultdict
 from typing import Generator
 
@@ -69,7 +71,7 @@ def decode_error_flags(sensor_failed: dict) -> None:
     Decodes sensor errors and displays messages.
     """
     for sensor_id, (s_p1, s_p2) in sensor_failed.items():
-        combined_str = s_p1[:-1] + s_p2
+        combined_str = s_p1[:-1].lstrip("-") + s_p2.lstrip("-")
         pairs = [combined_str[i:i + 2] for i in range(0, len(combined_str), 2)]
 
         binary_values = [bin(int(pair))[2:].zfill(8) for pair in pairs]
@@ -110,7 +112,8 @@ def process_logs(file_path: str) -> None:
 
 
 def main() -> None:
-    process_logs("app_2.log")
+    file_path = os.path.join(os.path.dirname(__file__), "app_2.log")
+    process_logs(file_path)
 
 
 if __name__ == "__main__":
