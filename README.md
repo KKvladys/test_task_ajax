@@ -1,11 +1,15 @@
 
 # Log File Parser
 This Python script processes log files 
-containing sensor data, extracts relevant information, 
+containing sensor data
 and analyzes successful and failed sensor messages.
 
+## Requirements
+
+Python 3.10+
+
 ## Installation
-Clone the repository and install dependencies if necessary:
+Clone the repository:
 
 ```bash
 git clone https://github.com/KKvladys/test_task_ajax
