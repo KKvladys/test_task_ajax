@@ -2,7 +2,7 @@ import pytest
 
 from unittest.mock import patch
 
-from scanner_handler import CheckQr
+from src.scanner_handler import CheckQr
 
 
 @pytest.fixture

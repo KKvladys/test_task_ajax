@@ -1,5 +1,5 @@
 ARG PYTHON_VERSION=3.12
-FROM python:${PYTHON_VERSION}-slim as base
+FROM python:${PYTHON_VERSION}-slim AS base
 
 ENV PYTHONDONTWRITEBYTECODE=1
 
@@ -9,4 +9,4 @@ WORKDIR /app
 
 COPY . .
 
-CMD ["python", "sensor_log_parser.py"]
+CMD ["python", "src/sensor_log_parser.py"]
